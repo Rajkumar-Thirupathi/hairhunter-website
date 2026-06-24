@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book a Slot — HairHunter</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .book-section {
+        min-height: 100vh;
+        padding: 80px 40px;
+        background: #111;
+      }
+      .book-section h2 {
+        text-align: center;
+        font-size: 38px;
+        color: #d4af37;
+        margin-bottom: 10px;
+      }
+      .book-section .sub {
+        text-align: center;
+        color: #aaa;
+        margin-bottom: 50px;
+        font-size: 15px;
+      }
+      .book-form {
+        max-width: 700px;
+        margin: 0 auto;
+        background: #1a1a1a;
+        border: 1px solid #d4af37;
+        border-radius: 20px;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+      }
+      .form-group label {
+        color: #d4af37;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .form-group input,
+      .form-group select {
+        padding: 14px 16px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        background: #111;
+        color: #fff;
+        font-size: 15px;
+        outline: none;
+      }
+      .barber-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 15px;
+        width: 100%;
+        margin-bottom: 30px;
+      }
+      .barber-option {
+        background: #111;
+        border: 2px solid #333;
+        border-radius: 12px;
+        padding: 0;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        aspect-ratio: 1 / 1;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+      }
+      .barber-option:hover {
+        border-color: #d4af37;
+      }
+      .barber-option.selected {
+        border-color: #d4af37;
+        background: #2a2200;
+      }
+      .barber-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(212, 175, 55, 0.1),
+          rgba(0, 0, 0, 0.4)
+        );
+        pointer-events: none;
+      }
+      .barber-info {
+        position: relative;
+        z-index: 10;
+        padding: 12px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        width: 100%;
+      }
+      .b-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #d4af37;
+        color: #111;
+        font-weight: 700;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 8px;
+      }
+      .b-name {
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .b-status {
+        font-size: 11px;
+        margin-top: 4px;
+      }
+      .status-free {
+        color: #4caf50;
+      }
+      .status-busy {
+        color: #f44336;
+      }
+
+      /* SERVICE CART */
+      .cart-section {
+        background: #111;
+        border: 1px solid #333;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 20px;
+      }
+      .cart-title {
+        color: #d4af37;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 12px;
+      }
+      .service-input-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .service-input-group select {
+        flex: 1;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #333;
+        background: #111;
+        color: #fff;
+        font-size: 13px;
+        outline: none;
+      }
+      .service-input-group button {
+        background: #d4af37;
+        color: #111;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .service-input-group button:hover {
+        background: #f0c94f;
+      }
+
+      .cart-items {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .cart-item {
+        background: #1a1a1a;
+        padding: 10px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #333;
+      }
+      .cart-item-name {
+        color: #ccc;
+        font-size: 13px;
+      }
+      .cart-item-price {
+        color: #d4af37;
+        font-weight: 600;
+        font-size: 13px;
+      }
+      .cart-item-remove {
+        background: #f44336;
+        color: #fff;
+        border: none;
+        padding: 4px 12px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .cart-empty {
+        color: #888;
+        font-size: 12px;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .cart-total {
+        background: #2a2200;
+        border: 1px solid #d4af37;
+        border-radius: 8px;
+        padding: 12px;
+        text-align: right;
+        margin-top: 12px;
+      }
+      .cart-total-label {
+        color: #aaa;
+        font-size: 13px;
+      }
+      .cart-total-amount {
+        color: #d4af37;
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .btn-book {
+        background: #d4af37;
+        color: #111;
+        border: none;
+        padding: 16px;
+        border-radius: 50px;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .btn-book:hover {
+        background: #f0c94f;
+      }
+      .btn-book:disabled {
+        background: #666;
+        cursor: not-allowed;
+      }
+
+      .success-msg {
+        display: none;
+        background: #1a3a1a;
+        border: 1px solid #4caf50;
+        color: #4caf50;
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="logo">
+        <img src="logo.png" alt="HairHunter Logo" class="logo-img" /> HairHunter
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#team">Our Team</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li>
+          <a href="admin.html" style="color: #f44336; font-weight: 600"
+            >🔐 Admin</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <section class="book-section" id="book">
+      <h2>Book Your Slot</h2>
+      <p class="sub">
+        Choose your barber, add multiple services & time — we'll confirm
+        instantly!
+      </p>
+
+      <div class="book-form">
+        <!-- YOUR NAME -->
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="customerName" placeholder="Enter your name" />
+        </div>
+
+        <!-- YOUR PHONE -->
+        <div class="form-group">
+          <label>Your Phone Number</label>
+          <input
+            type="tel"
+            id="customerPhone"
+            placeholder="9999999999"
+            maxlength="10"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+          />
+        </div>
+
+        <!-- PICK BARBER -->
+        <div class="form-group">
+          <label>Choose Your Barber</label>
+          <div class="barber-grid" id="barberGrid">
+            <!-- S.DEVA -->
+            <div
+              class="barber-option"
+              onclick="selectBarber(this, 'DEVA S')"
+              style="
+                background-image: url(&quot;DEVA S.jpeg&quot;);
+                background-size: cover;
+                background-position: center;
+              "
+            >
+              <div class="barber-overlay"></div>
+              <div class="barber-info">
+                <div class="b-name">DEVA S</div>
+                <div class="b-status status-free">● Free</div>
+              </div>
+            </div>
+
+            <!-- THIRUMOORTHI -->
+            <div
+              class="barber-option"
+              onclick="selectBarber(this, 'Thirumoorthi')"
+              style="
+                background-image: url(&quot;THIRUMOORTHI.jpeg&quot;);
+                background-size: cover;
+                background-position: center;
+              "
+            >
+              <div class="barber-overlay"></div>
+              <div class="barber-info">
+                <div class="b-name">THIRUMOORTHI</div>
+                <div class="b-status status-free">● Free</div>
+              </div>
+            </div>
+
+            <!-- KUTTY SURYA -->
+            <div
+              class="barber-option"
+              onclick="selectBarber(this, 'KUTTY SURYA')"
+              style="
+                background-image: url(&quot;KUTTY SURYA.jpeg&quot;);
+                background-size: cover;
+                background-position: center;
+              "
+            >
+              <div class="barber-overlay"></div>
+              <div class="barber-info">
+                <div class="b-name">KUTTY SURYA</div>
+                <div class="b-status status-free">● Free</div>
+              </div>
+            </div>
+
+            <!-- SURESH -->
+            <div
+              class="barber-option"
+              onclick="selectBarber(this, 'SURESH')"
+              style="
+                background-image: url(&quot;THIRUMOORTHI.jpeg&quot;);
+                background-size: cover;
+                background-position: center;
+              "
+            >
+              <div class="barber-overlay"></div>
+              <div class="barber-info">
+                <div class="b-name">SURESH</div>
+                <div class="b-status status-free">● Free</div>
+              </div>
+            </div>
+
+            <!-- PRAVIN -->
+            <div
+              class="barber-option"
+              onclick="selectBarber(this, 'PRAVIN')"
+              style="
+                background-image: url(&quot;PRAVEEN.jpeg&quot;);
+                background-size: cover;
+                background-position: center;
+              "
+            >
+              <div class="barber-overlay"></div>
+              <div class="barber-info">
+                <div class="b-name">PRAVIN</div>
+                <div class="b-status status-free">● Free</div>
+              </div>
+            </div>
+
+            <!-- ASHOK -->
+            <div
+              class="barber-option"
+              onclick="selectBarber(this, 'ASHOK')"
+              style="
+                background-image: url(&quot;ASHOK.jpeg&quot;);
+                background-size: cover;
+                background-position: center;
+              "
+            >
+              <div class="barber-overlay"></div>
+              <div class="barber-info">
+                <div class="b-name">ASHOK</div>
+                <div class="b-status status-free">● Free</div>
+              </div>
+            </div>
+
+            <!-- HARI -->
+            <div
+              class="barber-option"
+              onclick="selectBarber(this, 'HARI')"
+              style="
+                background-image: url(&quot;HARI.jpeg&quot;);
+                background-size: cover;
+                background-position: center;
+              "
+            >
+              <div class="barber-overlay"></div>
+              <div class="barber-info">
+                <div class="b-name">HARI</div>
+                <div class="b-status status-free">● Free</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADD SERVICES (CART) -->
+        <div class="form-group">
+          <label>Add Services to Your Booking</label>
+          <div class="cart-section">
+            <div class="cart-title">📋 Service Cart</div>
+            <div class="service-input-group">
+              <select id="serviceSelect">
+                <option value="">-- Select a service --</option>
+                <optgroup label="Cut & Style">
+                  <option value="Haircut (Men) - ₹170">
+                    ✂️ Haircut (Men) — ₹170
+                  </option>
+                  <option value="Kids Cut (below 5) - ₹100">
+                    ✂️ Kids Cut (below 5) — ₹100
+                  </option>
+                  <option value="Kids Cut (5-10 yrs) - ₹150">
+                    ✂️ Kids Cut (5–10 yrs) — ₹150
+                  </option>
+                  <option value="Shave & Beard Trim - ₹80">
+                    🪒 Shave & Beard Trim — ₹80
+                  </option>
+                  <option value="Shampoo + Conditioner Wash - ₹100">
+                    🧴 Shampoo + Conditioner Wash — ₹100
+                  </option>
+                  <option value="Combo (Haircut + Shave/Trim) - ₹200">
+                    💈 Combo (Haircut + Shave/Trim) — ₹200
+                  </option>
+                </optgroup>
+                <optgroup label="Hair Colouring">
+                  <option value="Professional Hair Colour - ₹500">
+                    🎨 Professional Hair Colour — ₹500
+                  </option>
+                  <option value="Hair Colour (Ammonia Free) - ₹600">
+                    🎨 Hair Colour (Ammonia Free) — ₹600
+                  </option>
+                </optgroup>
+                <optgroup label="Detan">
+                  <option value="Face Detan - ₹250">
+                    🧖 Face Detan — ₹250
+                  </option>
+                  <option value="Neck Detan - ₹200">
+                    🧖 Neck Detan — ₹200
+                  </option>
+                </optgroup>
+                <optgroup label="Facials">
+                  <option value="Clean Up - ₹450">✨ Clean Up — ₹450</option>
+                  <option value="Fruit Facial - ₹800">
+                    ✨ Fruit Facial — ₹800
+                  </option>
+                  <option value="Gold Facial - ₹2000">
+                    ✨ Gold Facial — ₹2000
+                  </option>
+                </optgroup>
+                <optgroup label="Hair Spa & Treatment">
+                  <option value="Hair Spa (Dry & Damaged) - ₹400">
+                    💆 Hair Spa (Dry & Damaged) — ₹400
+                  </option>
+                  <option value="Keratin Hair Spa - ₹600">
+                    💆 Keratin Hair Spa — ₹600
+                  </option>
+                </optgroup>
+                <optgroup label="Massage">
+                  <option value="Head Massage (Almond Oil) - ₹350">
+                    🤲 Head Massage (Almond Oil) — ₹350
+                  </option>
+                  <option value="Face Massage - ₹250">
+                    🤲 Face Massage — ₹250
+                  </option>
+                </optgroup>
+                <optgroup label="Grooming / Makeup">
+                  <option value="Party Makeup - ₹2500">
+                    💄 Party Makeup — ₹2500
+                  </option>
+                  <option value="Groom Makeup (Normal) - ₹4000">
+                    💄 Groom Makeup (Normal) — ₹4000
+                  </option>
+                  <option value="Groom Makeup (HD) - ₹5000">
+                    💄 Groom Makeup (HD) — ₹5000
+                  </option>
+                </optgroup>
+                <optgroup label="Hair Straightening">
+                  <option value="Hair Straightening (Temporary) - ₹500">
+                    💇 Hair Straightening (Temporary) — ₹500
+                  </option>
+                  <option value="Hair Straightening (Permanent Front) - ₹1500">
+                    💇 Hair Straightening (Permanent Front) — ₹1500
+                  </option>
+                </optgroup>
+              </select>
+              <button onclick="addService()">➕ Add</button>
+            </div>
+
+            <div class="cart-items" id="cartItems">
+              <div class="cart-empty">No services added yet</div>
+            </div>
+
+            <div class="cart-total">
+              <div class="cart-total-label">Total Amount:</div>
+              <div class="cart-total-amount" id="totalPrice">₹0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PICK DATE & TIME -->
+        <div class="form-group">
+          <label>Pick Date</label>
+          <input type="date" id="bookDate" min="" max="" />
+        </div>
+        <div class="form-group">
+          <label>Pick Time</label>
+          <select id="bookTime">
+            <option value="">-- Choose a time --</option>
+            <option>8:00 AM</option>
+            <option>8:30 AM</option>
+            <option>9:00 AM</option>
+            <option>9:30 AM</option>
+            <option>10:00 AM</option>
+            <option>10:30 AM</option>
+            <option>11:00 AM</option>
+            <option>11:30 AM</option>
+            <option>12:00 PM</option>
+            <option>12:30 PM</option>
+            <option>1:00 PM</option>
+            <option>1:30 PM</option>
+            <option>3:00 PM</option>
+            <option>3:30 PM</option>
+            <option>4:00 PM</option>
+            <option>4:30 PM</option>
+            <option>5:00 PM</option>
+            <option>5:30 PM</option>
+            <option>6:00 PM</option>
+            <option>6:30 PM</option>
+            <option>7:00 PM</option>
+            <option>7:30 PM</option>
+            <option>8:00 PM</option>
+            <option>8:30 PM</option>
+          </select>
+        </div>
+
+        <!-- BOOK BUTTON -->
+        <button class="btn-book" onclick="submitBooking()">
+          Confirm Booking ✂️
+        </button>
+
+        <!-- SUCCESS MESSAGE -->
+        <div class="success-msg" id="successMsg">✅ Booking confirmed!</div>
+      </div>
+    </section>
+
+    <script>
+      let selectedBarber = "";
+      let selectedBarberPhone = "";
+      let cartServices = [];
+
+      // Barber phone numbers mapping
+      const barberPhones = {
+        "DEVA S": "90872 29092",
+        THIRUMOORTHI: "6381162628",
+        "KUTTY SURYA": "90872 29092",
+        SURESH: "7708027729",
+        PRAVIN: "7448837471",
+        ASHOK: "8939031329",
+        HARI: "6380634302",
+      };
+
+      const today = new Date();
+      const maxDate = new Date();
+      maxDate.setDate(today.getDate() + 30);
+
+      function formatDate(d) {
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd}`;
+      }
+
+      document.getElementById("bookDate").min = formatDate(today);
+      document.getElementById("bookDate").max = formatDate(maxDate);
+
+      function selectBarber(el, name) {
+        // Don't allow selecting busy barbers
+        const status = localStorage.getItem("barber_" + name) || "free";
+        if (status === "busy") {
+          alert("❌ This barber is currently busy. Please choose another!");
+          return;
+        }
+
+        document
+          .querySelectorAll(".barber-option")
+          .forEach((b) => b.classList.remove("selected"));
+        el.classList.add("selected");
+        selectedBarber = name;
+        selectedBarberPhone = barberPhones[name] || ""; // ✅ Capture phone
+      }
+
+      // ✅ NEW: Read barber status from localStorage (set by admin)
+      function updateBarberStatusFromAdmin() {
+        document.querySelectorAll(".barber-option").forEach((card) => {
+          const barberName = card.querySelector(".b-name").textContent;
+          const statusEl = card.querySelector(".b-status");
+
+          // Read status from localStorage (admin sets this)
+          const status = localStorage.getItem("barber_" + barberName) || "free";
+
+          if (status === "busy") {
+            statusEl.textContent = "● Busy";
+            statusEl.className = "b-status status-busy";
+            card.style.opacity = "0.5";
+            card.style.pointerEvents = "none";
+            card.style.cursor = "not-allowed";
+          } else {
+            statusEl.textContent = "● Free";
+            statusEl.className = "b-status status-free";
+            card.style.opacity = "1";
+            card.style.pointerEvents = "auto";
+            card.style.cursor = "pointer";
+          }
+        });
+      }
+
+      // Check barber status when page loads
+      window.addEventListener("load", updateBarberStatusFromAdmin);
+
+      // Refresh every 3 seconds to sync with admin changes
+      setInterval(updateBarberStatusFromAdmin, 3000);
+
+      // READ barber status from localStorage (set by admin)
+      function updateBarberStatusFromAdmin() {
+        document.querySelectorAll(".barber-option").forEach((card) => {
+          const barberName = card.querySelector(".b-name").textContent;
+          const statusEl = card.querySelector(".b-status");
+          const status = localStorage.getItem("barber_" + barberName);
+
+          if (status === "busy") {
+            statusEl.textContent = "● Busy";
+            statusEl.className = "b-status status-busy";
+            card.style.opacity = "0.6";
+            card.style.pointerEvents = "none";
+          } else {
+            statusEl.textContent = "● Free";
+            statusEl.className = "b-status status-free";
+            card.style.opacity = "1";
+            card.style.pointerEvents = "auto";
+          }
+        });
+      }
+
+      // Check barber status when page loads
+      window.addEventListener("load", updateBarberStatusFromAdmin);
+      // Also check every 5 seconds for admin changes
+      setInterval(updateBarberStatusFromAdmin, 5000);
+
+      function addService() {
+        const serviceSelect = document.getElementById("serviceSelect");
+        const serviceName = serviceSelect.value;
+
+        if (!serviceName) {
+          alert("Please select a service!");
+          return;
+        }
+
+        const priceMatch = serviceName.match(/₹(\d+)/);
+        const price = priceMatch ? parseInt(priceMatch[1]) : 0;
+
+        if (cartServices.some((s) => s.name === serviceName)) {
+          alert("This service is already in your cart!");
+          return;
+        }
+
+        cartServices.push({ name: serviceName, price });
+        updateCartDisplay();
+        serviceSelect.value = "";
+      }
+
+      function removeService(index) {
+        cartServices.splice(index, 1);
+        updateCartDisplay();
+      }
+
+      function updateCartDisplay() {
+        const cartItemsDiv = document.getElementById("cartItems");
+        const totalPriceDiv = document.getElementById("totalPrice");
+
+        if (cartServices.length === 0) {
+          cartItemsDiv.innerHTML =
+            '<div class="cart-empty">No services added yet</div>';
+          totalPriceDiv.textContent = "₹0";
+          return;
+        }
+
+        let total = 0;
+        cartItemsDiv.innerHTML = "";
+
+        cartServices.forEach((service, index) => {
+          total += service.price;
+          const item = document.createElement("div");
+          item.className = "cart-item";
+          item.innerHTML = `
+            <div>
+              <div class="cart-item-name">${service.name}</div>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <div class="cart-item-price">₹${service.price}</div>
+              <button class="cart-item-remove" onclick="removeService(${index})">✕</button>
+            </div>
+          `;
+          cartItemsDiv.appendChild(item);
+        });
+
+        totalPriceDiv.textContent = `₹${total}`;
+      }
+
+      function submitBooking() {
+        const name = document.getElementById("customerName").value.trim();
+        const phone = document.getElementById("customerPhone").value.trim();
+        const date = document.getElementById("bookDate").value;
+        const time = document.getElementById("bookTime").value;
+
+        if (
+          !name ||
+          !phone ||
+          !selectedBarber ||
+          cartServices.length === 0 ||
+          !date ||
+          !time
+        ) {
+          alert("Please fill all fields and add at least one service!");
+          return;
+        }
+
+        if (phone.length !== 10) {
+          alert("Please enter a valid 10-digit phone number!");
+          return;
+        }
+
+        const selectedDateTime = new Date(date + " " + time);
+        const now = new Date();
+
+        if (selectedDateTime < now) {
+          alert("You cannot book a past date or time!");
+          return;
+        }
+
+        const hasGrooming = cartServices.some((s) => s.name.includes("Makeup"));
+
+        if (hasGrooming) {
+          showPaymentStep(name, phone, date, time);
+        } else {
+          confirmBookingDirectly(name, phone, date, time);
+        }
+      }
+
+      function confirmBookingDirectly(name, phone, date, time) {
+        const servicesList = cartServices.map((s) => s.name).join(" + ");
+        const totalPrice = cartServices.reduce((sum, s) => sum + s.price, 0);
+
+        const booking = {
+          id: Date.now(),
+          name,
+          phone,
+          barber: selectedBarber,
+          barberPhone: selectedBarberPhone,
+          services: cartServices,
+          servicesList,
+          totalPrice,
+          date,
+          time,
+          status: "confirmed",
+          screenshot: null,
+        };
+
+        saveBooking(booking);
+
+        // ✅ Create WhatsApp message
+        const whatsappMessage = `Hi ${selectedBarber}! ✂️
+
+📌 New Booking Confirmed!
+
+Customer: ${name}
+Phone: ${phone}
+Services: ${servicesList}
+📅 Date: ${date}
+⏰ Time: ${time}
+💰 Amount: ₹${totalPrice}
+
+Please confirm availability!`;
+
+        const whatsappLink = `https://wa.me/${selectedBarberPhone.replace(/\s/g, "")}?text=${encodeURIComponent(whatsappMessage)}`;
+
+        document.getElementById("successMsg").style.display = "block";
+        document.getElementById("successMsg").innerHTML = `
+          <div style="text-align: center;">
+            <div style="font-size: 50px; margin-bottom: 16px;">✅</div>
+            <h3 style="color: #d4af37; margin-bottom: 16px;">Booking Confirmed!</h3>
+            <p style="color: #ccc; font-size: 14px; margin-bottom: 24px;">
+              <strong>${name}</strong>, your booking is confirmed!<br>
+              ✂️ Barber: <strong>${selectedBarber}</strong><br>
+              💇 Services: <strong>${servicesList}</strong><br>
+              💰 Total: <strong>₹${totalPrice}</strong><br>
+              📅 ${date} at ${time}
+            </p>
+            <a href="${whatsappLink}" target="_blank" class="btn-book" style="display: inline-block; margin: 10px 5px; text-decoration: none;">
+              📱 Send WhatsApp to Barber
+            </a>
+            <div style="color: #888; font-size: 12px; margin-top: 16px;">
+              Your barber has been notified! ✂️
+            </div>
+          </div>
+        `;
+        document
+          .getElementById("successMsg")
+          .scrollIntoView({ behavior: "smooth" });
+
+        document.getElementById("customerName").value = "";
+        document.getElementById("customerPhone").value = "";
+        cartServices = [];
+        updateCartDisplay();
+      }
+
+      function showPaymentStep(name, phone, date, time) {
+        document.querySelector(".book-form").style.display = "none";
+
+        const servicesList = cartServices.map((s) => s.name).join(" + ");
+        const totalPrice = cartServices.reduce((sum, s) => sum + s.price, 0);
+
+        const paymentBox = document.createElement("div");
+        paymentBox.className = "book-form";
+        paymentBox.id = "paymentStep";
+        paymentBox.innerHTML = `
+          <h3 style="color:#D4AF37; text-align:center; margin-bottom:10px;">💳 Advance Payment Required</h3>
+          <p style="color:#aaa; text-align:center; font-size:13px; margin-bottom:20px;">
+            Your booking includes Grooming service. Minimum ₹1000 advance payment required.
+          </p>
+
+          <div style="background:#2a2200; border:1px solid #D4AF37; border-radius:12px; padding:16px; margin-bottom:20px;">
+            <p style="color:#ccc; font-size:13px; margin-bottom:8px;">📋 Services:</p>
+            <p style="color:#D4AF37; font-weight:600; font-size:13px;">${servicesList}</p>
+            <p style="color:#ccc; font-size:13px; margin-top:8px;">💰 Total Amount: <strong style="color:#D4AF37;">₹${totalPrice}</strong></p>
+          </div>
+
+          <div style="text-align:center; margin-bottom:20px;">
+            <div style="width:200px; height:200px; background:#222; border:2px dashed #D4AF37; border-radius:12px; margin:0 auto; display:flex; align-items:center; justify-content:center; color:#888; font-size:13px;">
+              QR Code<br>Coming Soon
+            </div>
+            <p style="color:#D4AF37; font-size:13px; margin-top:10px;">Scan & pay ₹1000 for your booking, then upload screenshot</p>
+          </div>
+
+          <div class="form-group">
+            <label>Upload Payment Screenshot</label>
+            <input type="file" id="paymentScreenshot" accept="image/*" style="padding:10px; cursor:pointer;"/>
+          </div>
+
+          <div id="screenshotPreview" style="text-align:center; margin-top:10px;"></div>
+
+          <button class="btn-book" id="submitProofBtn">
+            Submit for Verification ✂️
+          </button>
+        `;
+
+        document.querySelector(".book-section").appendChild(paymentBox);
+        paymentBox.scrollIntoView({ behavior: "smooth" });
+
+        document
+          .getElementById("paymentScreenshot")
+          .addEventListener("change", function (e) {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function (evt) {
+                document.getElementById("screenshotPreview").innerHTML =
+                  `<img src="${evt.target.result}" style="max-width:200px; border-radius:8px; border:1px solid #D4AF37;"/>`;
+                window.uploadedScreenshot = evt.target.result;
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+
+        document
+          .getElementById("submitProofBtn")
+          .addEventListener("click", function () {
+            submitPaymentProof(name, phone, date, time);
+          });
+      }
+
+      function submitPaymentProof(name, phone, date, time) {
+        if (!window.uploadedScreenshot) {
+          alert("Please upload your payment screenshot!");
+          return;
+        }
+
+        const servicesList = cartServices.map((s) => s.name).join(" + ");
+        const totalPrice = cartServices.reduce((sum, s) => sum + s.price, 0);
+
+        const booking = {
+          id: Date.now(),
+          name,
+          phone,
+          barber: selectedBarber,
+          barberPhone: selectedBarberPhone, // ✅ Add barber phone
+          services: cartServices,
+          servicesList,
+          totalPrice,
+          date,
+          time,
+          status: "pending",
+          screenshot: window.uploadedScreenshot,
+        };
+
+        saveBooking(booking);
+
+        document.getElementById("paymentStep").innerHTML = `
+          <div style="text-align:center; padding:30px;">
+            <div style="font-size:50px; margin-bottom:16px;">⏳</div>
+            <h3 style="color:#D4AF37; margin-bottom:10px;">Payment Under Verification</h3>
+            <p style="color:#ccc; font-size:14px;">
+              We've received your payment screenshot for ₹${totalPrice}.<br>
+              Your booking will be confirmed once verified.<br><br>
+              You'll be notified shortly!
+            </p>
+          </div>
+        `;
+      }
+
+      function saveBooking(booking) {
+        let bookings = JSON.parse(localStorage.getItem("hh_bookings") || "[]");
+        bookings.push(booking);
+        localStorage.setItem("hh_bookings", JSON.stringify(bookings));
+
+        // ✅ Send to Make.com webhook for automatic WhatsApp
+        sendToMakeWebhook(booking);
+      }
+
+      // ✅ NEW: Send booking to Make.com webhook
+      function sendToMakeWebhook(booking) {
+        // Replace this with your Make.com webhook URL (you'll get it in setup)
+        const webhookUrl = localStorage.getItem("makeWebhookUrl");
+
+        if (!webhookUrl) {
+          console.log("Make.com webhook not configured yet");
+          return;
+        }
+
+        fetch(webhookUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            customerName: booking.name,
+            customerPhone: booking.phone,
+            barberName: booking.barber,
+            barberPhone: booking.barberPhone,
+            services: booking.servicesList,
+            totalPrice: booking.totalPrice,
+            date: booking.date,
+            time: booking.time,
+            bookingId: booking.id,
+            timestamp: new Date().toLocaleString(),
+          }),
+        }).catch((err) => console.log("Webhook sent:", err));
+      }
+    </script>
+  </body>
+</html>

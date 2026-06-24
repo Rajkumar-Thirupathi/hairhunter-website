@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin — HairHunter</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+      body {
+        background: #111;
+        color: #fff;
+      }
+
+      .login-screen {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0a0a0a;
+      }
+      .login-box {
+        background: #1a1a1a;
+        border: 1px solid #d4af37;
+        border-radius: 20px;
+        padding: 50px 40px;
+        width: 380px;
+        text-align: center;
+      }
+      .login-box h2 {
+        color: #d4af37;
+        font-size: 26px;
+        margin-bottom: 8px;
+      }
+      .login-box p {
+        color: #aaa;
+        font-size: 13px;
+        margin-bottom: 30px;
+      }
+      .login-box input {
+        width: 100%;
+        padding: 14px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        background: #111;
+        color: #fff;
+        font-size: 15px;
+        margin-bottom: 14px;
+        outline: none;
+      }
+      .login-box button {
+        width: 100%;
+        padding: 14px;
+        background: #d4af37;
+        color: #111;
+        border: none;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .login-box button:hover {
+        background: #f0c94f;
+      }
+      .login-error {
+        color: #f44336;
+        font-size: 13px;
+        margin-top: 10px;
+        display: none;
+        background: #3a1a1a;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #f44336;
+      }
+
+      .dashboard {
+        display: none;
+      }
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 40px;
+        background: #0a0a0a;
+        border-bottom: 1px solid #d4af37;
+      }
+      .topbar .logo {
+        color: #d4af37;
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .topbar .logo-img {
+        height: 40px;
+        width: auto;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+      .topbar button {
+        background: transparent;
+        border: 1px solid #d4af37;
+        color: #d4af37;
+        padding: 8px 20px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 13px;
+        margin-left: 10px;
+      }
+
+      .dash-body {
+        padding: 30px 40px;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-bottom: 35px;
+      }
+      .stat-card {
+        background: #1a1a1a;
+        border: 1px solid #333;
+        border-radius: 16px;
+        padding: 24px 20px;
+        text-align: center;
+      }
+      .stat-card .stat-icon {
+        font-size: 30px;
+        margin-bottom: 10px;
+      }
+      .stat-card .stat-num {
+        font-size: 32px;
+        font-weight: 700;
+        color: #d4af37;
+      }
+      .stat-card .stat-label {
+        font-size: 13px;
+        color: #aaa;
+        margin-top: 4px;
+      }
+
+      .sec-title {
+        font-size: 20px;
+        color: #d4af37;
+        margin-bottom: 16px;
+        border-left: 4px solid #d4af37;
+        padding-left: 12px;
+      }
+
+      .barber-table,
+      .bookings-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 40px;
+        background: #1a1a1a;
+        border-radius: 16px;
+        overflow: hidden;
+      }
+      .barber-table th,
+      .bookings-table th {
+        background: #d4af37;
+        color: #111;
+        padding: 14px 20px;
+        text-align: left;
+        font-size: 14px;
+      }
+      .barber-table td,
+      .bookings-table td {
+        padding: 14px 20px;
+        border-bottom: 1px solid #222;
+        font-size: 14px;
+        color: #ccc;
+      }
+      .barber-table tr:last-child td,
+      .bookings-table tr:last-child td {
+        border-bottom: none;
+      }
+      .status-btn {
+        padding: 6px 18px;
+        border-radius: 50px;
+        border: none;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn-free {
+        background: #1a3a1a;
+        color: #4caf50;
+        border: 1px solid #4caf50;
+      }
+      .btn-busy {
+        background: #3a1a1a;
+        color: #f44336;
+        border: 1px solid #f44336;
+      }
+
+      .badge-confirmed {
+        background: #1a3a1a;
+        color: #4caf50;
+        padding: 4px 10px;
+        border-radius: 50px;
+        font-size: 11px;
+      }
+      .badge-pending {
+        background: #3a2a00;
+        color: #d4af37;
+        padding: 4px 10px;
+        border-radius: 50px;
+        font-size: 11px;
+      }
+      .badge-rejected {
+        background: #3a1a1a;
+        color: #f44336;
+        padding: 4px 10px;
+        border-radius: 50px;
+        font-size: 11px;
+      }
+
+      .groom-card {
+        background: #1a1a1a;
+        border: 1px solid #d4af37;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 16px;
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .groom-card img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 1px solid #333;
+        cursor: pointer;
+      }
+      .groom-info {
+        flex: 1;
+        min-width: 200px;
+      }
+      .groom-info .g-name {
+        color: #d4af37;
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 6px;
+      }
+      .groom-info p {
+        color: #ccc;
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+      .groom-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .groom-actions button {
+        padding: 8px 20px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .btn-confirm {
+        background: #1a3a1a;
+        color: #4caf50;
+        border: 1px solid #4caf50;
+      }
+      .btn-reject {
+        background: #3a1a1a;
+        color: #f44336;
+        border: 1px solid #f44336;
+      }
+      .no-pending {
+        color: #888;
+        font-size: 14px;
+        padding: 20px;
+        background: #1a1a1a;
+        border-radius: 12px;
+        text-align: center;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+      .modal.active {
+        display: flex;
+      }
+      .modal-content {
+        background: #1a1a1a;
+        border: 1px solid #d4af37;
+        border-radius: 20px;
+        padding: 40px;
+        width: 380px;
+        text-align: center;
+      }
+      .modal-content h2 {
+        color: #d4af37;
+        margin-bottom: 8px;
+      }
+      .modal-content p {
+        color: #aaa;
+        font-size: 13px;
+        margin-bottom: 24px;
+      }
+      .modal-input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        background: #111;
+        color: #fff;
+        font-size: 14px;
+        margin-bottom: 16px;
+        outline: none;
+        box-sizing: border-box;
+      }
+      .modal-label {
+        color: #d4af37;
+        font-size: 13px;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 6px;
+        text-align: left;
+      }
+      .modal-error {
+        color: #f44336;
+        font-size: 12px;
+        margin-bottom: 16px;
+        display: none;
+        background: #3a1a1a;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #f44336;
+      }
+      .modal-buttons {
+        display: flex;
+        gap: 10px;
+      }
+      .modal-buttons button {
+        flex: 1;
+        padding: 12px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 700;
+        border: none;
+      }
+      .btn-update {
+        background: #d4af37;
+        color: #111;
+      }
+      .btn-cancel {
+        background: transparent;
+        border: 1px solid #666;
+        color: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- LOGIN SCREEN -->
+    <div class="login-screen" id="loginScreen">
+      <div class="login-box">
+        <h2>✂️ HairHunter</h2>
+        <p>Owner Admin Panel — Login</p>
+        <input type="text" id="adminUser" placeholder="Username" />
+        <input
+          type="password"
+          id="adminPass"
+          placeholder="Password"
+          onkeypress="if (event.key === 'Enter') adminLogin();"
+        />
+        <button onclick="adminLogin()">Login →</button>
+        <p class="login-error" id="loginError"></p>
+        <p style="text-align: center; margin-top: 16px;">
+          <a href="javascript:void(0)" onclick="showForgotPassword()" style="color: #d4af37; font-size: 12px; text-decoration: none; cursor: pointer;">
+            🔑 Forgot Password?
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard" id="dashboard">
+      <div class="topbar">
+        <div class="logo">
+          <img src="logo.png" alt="HairHunter Logo" class="logo-img" />
+          HairHunter — Admin
+        </div>
+        <div>
+          <button onclick="showSettings()">⚙️ Settings</button>
+          <button onclick="logout()">Logout</button>
+        </div>
+      </div>
+
+      <div class="dash-body">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📅</div>
+            <div class="stat-num">6</div>
+            <div class="stat-label">Today's Bookings</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">💰</div>
+            <div class="stat-num">₹1,840</div>
+            <div class="stat-label">Today's Revenue</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">✂️</div>
+            <div class="stat-num">7</div>
+            <div class="stat-label">Active Barbers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-num">4.8</div>
+            <div class="stat-label">Avg. Rating</div>
+          </div>
+        </div>
+
+        <p class="sec-title">⏳ Pending Groom/Makeup Bookings</p>
+        <div id="pendingBookings"></div>
+
+        <p class="sec-title">Barber Status</p>
+        <table class="barber-table">
+          <thead>
+            <tr>
+              <th>Barber</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="barberTableBody"></tbody>
+        </table>
+
+        <p class="sec-title">Today's Bookings</p>
+        <table class="bookings-table">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Barber</th>
+              <th>Service</th>
+              <th>Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="bookingsBody"></tbody>
+        </table>
+      </div>
+
+      <!-- FORGOT PASSWORD MODAL -->
+      <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+          <h2>🔐 Forgot Password?</h2>
+          <p style="color: #d4af37; font-size: 13px; margin-bottom: 20px; font-weight: 600;">
+            ✂️ HairHunter Admin Recovery
+          </p>
+
+          <div id="forgotStep1">
+            <p style="color: #aaa; font-size: 13px; margin-bottom: 16px;">
+              Enter your shop email to receive a password reset link
+            </p>
+
+            <label class="modal-label">Shop Email</label>
+            <input
+              type="email"
+              id="recoveryEmail"
+              placeholder="your-shop@email.com"
+              class="modal-input"
+            />
+
+            <div class="modal-error" id="recoveryError"></div>
+
+            <div class="modal-buttons">
+              <button class="btn-update" onclick="sendPasswordReset()">
+                📧 Send Reset Link
+              </button>
+              <button class="btn-cancel" onclick="closeForgotPassword()">
+                ❌ Cancel
+              </button>
+            </div>
+          </div>
+
+          <div id="forgotStep2" style="display: none; text-align: center;">
+            <div style="font-size: 50px; margin-bottom: 16px;">📧</div>
+            <h3 style="color: #d4af37; margin-bottom: 10px;">Check Your Email!</h3>
+            <p style="color: #ccc; font-size: 13px; margin-bottom: 16px;">
+              A password reset link has been sent to your shop email.<br>
+              <strong id="displayEmail"></strong>
+            </p>
+            <p style="color: #aaa; font-size: 12px; margin-bottom: 16px;">
+              ⏰ Link expires in 10 minutes
+            </p>
+            <button class="btn-cancel" onclick="closeForgotPassword()" style="width: 100%;">
+              ✅ Got It
+            </button>
+          </div>
+
+          <div id="forgotStep3" style="display: none; text-align: center;">
+            <div style="font-size: 40px; margin-bottom: 16px;">💬</div>
+            <h3 style="color: #d4af37; margin-bottom: 10px;">Contact Admin</h3>
+            <p style="color: #ccc; font-size: 13px; margin-bottom: 16px;">
+              Need help? Contact your HairHunter shop admin via WhatsApp
+            </p>
+            <a href="https://wa.me/918122288236?text=I%20forgot%20my%20admin%20password%20for%20HairHunter" target="_blank" class="btn-update" style="display: block; padding: 12px;">
+              💬 WhatsApp Admin
+            </a>
+            <button class="btn-cancel" onclick="closeForgotPassword()" style="width: 100%; margin-top: 10px;">
+              ❌ Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS MODAL -->
+      <div class="modal" id="settingsModal">
+        <div class="modal-content">
+          <h2>Change Credentials</h2>
+          <p>Update your login username and password</p>
+
+          <label class="modal-label">New Username</label>
+          <input
+            type="text"
+            id="newUser"
+            placeholder="Enter new username"
+            class="modal-input"
+          />
+
+          <label class="modal-label">New Password</label>
+          <input
+            type="password"
+            id="newPass"
+            placeholder="Enter new password"
+            class="modal-input"
+          />
+
+          <div class="modal-error" id="settingsError"></div>
+
+          <div class="modal-buttons">
+            <button class="btn-update" onclick="updateCredentials()">
+              ✅ Update
+            </button>
+            <button class="btn-cancel" onclick="closeSettings()">
+              ❌ Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const barbers = [
+        { id: 1, name: "DEVA S", role: "Senior Stylist", status: "free" },
+        { id: 2, name: "THIRUMOORTHI", role: "Senior Barber", status: "free" },
+        { id: 3, name: "KUTTY SURYA", role: "Senior Barber", status: "free" },
+        { id: 4, name: "SURESH", role: "Kids Stylist", status: "free" },
+        { id: 5, name: "PRAVIN", role: "Beard Expert", status: "free" },
+        { id: 6, name: "ASHOK", role: "Junior Barber", status: "free" },
+        { id: 7, name: "HARI", role: "Junior Barber", status: "free" },
+      ];
+
+      const bookings = [
+        {
+          customer: "Raj",
+          barber: "Thirumoorthi",
+          service: "Haircut (Men)",
+          time: "9:30 AM",
+          status: "confirmed",
+        },
+        {
+          customer: "Arun",
+          barber: "Arjun James",
+          service: "Fade + Trim",
+          time: "10:00 AM",
+          status: "confirmed",
+        },
+        {
+          customer: "Vikash",
+          barber: "Manoj S",
+          service: "Kids Haircut",
+          time: "10:30 AM",
+          status: "confirmed",
+        },
+        {
+          customer: "Siva",
+          barber: "Vikram R",
+          service: "Beard Trim",
+          time: "11:00 AM",
+          status: "pending",
+        },
+        {
+          customer: "Deepak",
+          barber: "S.Deva",
+          service: "Facial Gold",
+          time: "11:30 AM",
+          status: "confirmed",
+        },
+        {
+          customer: "Murugan",
+          barber: "Karthik P",
+          service: "Groom Package",
+          time: "12:00 PM",
+          status: "pending",
+        },
+      ];
+
+      function adminLogin() {
+        const ADMIN_USER_STORED =
+          localStorage.getItem("adminUser") || "hairhunter";
+        const ADMIN_PASS_STORED =
+          localStorage.getItem("adminPass") || "admin123";
+        const u = document.getElementById("adminUser").value.trim();
+        const p = document.getElementById("adminPass").value.trim();
+        const errorMsg = document.getElementById("loginError");
+
+        if (!u || !p) {
+          errorMsg.style.display = "block";
+          errorMsg.textContent = "❌ Please enter both username and password!";
+          return;
+        }
+
+        if (u === ADMIN_USER_STORED && p === ADMIN_PASS_STORED) {
+          document.getElementById("loginScreen").style.display = "none";
+          document.getElementById("dashboard").style.display = "block";
+          loadDashboard();
+        } else {
+          errorMsg.style.display = "block";
+          errorMsg.textContent = "❌ Wrong username or password!";
+        }
+      }
+
+      function logout() {
+        document.getElementById("loginScreen").style.display = "flex";
+        document.getElementById("dashboard").style.display = "none";
+        document.getElementById("adminUser").value = "";
+        document.getElementById("adminPass").value = "";
+      }
+
+      function loadDashboard() {
+        // ✅ FIRST: Load barber status from localStorage
+        loadBarberStatusFromStorage();
+        
+        clearOldBookings();  // ✅ Clear bookings older than today
+        loadPendingBookings();
+        loadBarberTable();
+        loadBookingsTable();
+      }
+
+      // ✅ NEW: Load barber status from localStorage on startup
+      function loadBarberStatusFromStorage() {
+        barbers.forEach((b) => {
+          const savedStatus = localStorage.getItem("barber_" + b.name);
+          if (savedStatus) {
+            b.status = savedStatus;  // Restore saved status
+          }
+        });
+      }
+
+      function loadBarberTable() {
+        const tbody = document.getElementById("barberTableBody");
+        tbody.innerHTML = "";
+        barbers.forEach((b) => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${b.name}</td>
+              <td>${b.role}</td>
+              <td style="color:${b.status === "free" ? "#4caf50" : "#f44336"}">${b.status === "free" ? "🟢 Free" : "🔴 Busy"}</td>
+              <td><button class="status-btn ${b.status === "free" ? "btn-busy" : "btn-free"}" onclick="toggleStatus(${b.id})">${b.status === "free" ? "Mark Busy" : "Mark Free"}</button></td>
+            </tr>`;
+        });
+      }
+
+      function loadBookingsTable() {
+        const tbody = document.getElementById("bookingsBody");
+        tbody.innerHTML = "";
+        
+        // Get REAL bookings from localStorage (actual customer bookings)
+        const hhBookings = JSON.parse(localStorage.getItem("hh_bookings") || "[]");
+        
+        // If no real bookings, show sample data
+        const bookingsToShow = hhBookings.length > 0 ? hhBookings : bookings;
+        
+        bookingsToShow.forEach((bk) => {
+          // For real bookings, use servicesList; for sample data, use service
+          const serviceName = bk.servicesList || bk.service;
+          tbody.innerHTML += `
+            <tr>
+              <td>${bk.name || bk.customer}</td>
+              <td>${bk.barber}</td>
+              <td>${serviceName}</td>
+              <td>${bk.time}</td>
+              <td><span class="badge-${bk.status}">${bk.status}</span></td>
+            </tr>`;
+        });
+      }
+
+      function toggleStatus(id) {
+        const b = barbers.find((x) => x.id === id);
+        b.status = b.status === "free" ? "busy" : "free";
+        
+        // ✅ SAVE barber status to localStorage so booking/index page can read it
+        localStorage.setItem("barber_" + b.name, b.status);
+        
+        loadBarberTable();
+      }
+
+      // ✅ NEW FUNCTION: Clear old bookings (older than today)
+      function clearOldBookings() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        let hhBookings = JSON.parse(localStorage.getItem("hh_bookings") || "[]");
+        
+        // Keep only TODAY and FUTURE bookings (delete past dates)
+        hhBookings = hhBookings.filter((b) => {
+          const bookingDate = new Date(b.date);
+          bookingDate.setHours(0, 0, 0, 0);
+          return bookingDate >= today;
+        });
+        
+        localStorage.setItem("hh_bookings", JSON.stringify(hhBookings));
+      }
+
+      function loadPendingBookings() {
+        const container = document.getElementById("pendingBookings");
+        const hhBookings = JSON.parse(
+          localStorage.getItem("hh_bookings") || "[]",
+        );
+        const pending = hhBookings.filter((b) => b.status === "pending");
+
+        if (pending.length === 0) {
+          container.innerHTML =
+            '<p class="no-pending">No pending Groom/Makeup bookings ✅</p>';
+          return;
+        }
+
+        container.innerHTML = "";
+        pending.forEach((b) => {
+          const card = document.createElement("div");
+          card.className = "groom-card";
+          card.innerHTML = `
+            <img src="${b.screenshot}" onclick="window.open('${b.screenshot}', '_blank')" />
+            <div class="groom-info">
+              <p class="g-name">${b.name} — ${b.phone}</p>
+              <p>💇 ${b.servicesList}</p>
+              <p>✂️ Barber: ${b.barber}</p>
+              <p>📅 ${b.date} at ${b.time}</p>
+            </div>
+            <div class="groom-actions">
+              <button class="btn-confirm" onclick="updateBookingStatus(${b.id}, 'confirmed')">✅ Confirm</button>
+              <button class="btn-reject" onclick="updateBookingStatus(${b.id}, 'rejected')">❌ Reject</button>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      function updateBookingStatus(id, newStatus) {
+        let hhBookings = JSON.parse(
+          localStorage.getItem("hh_bookings") || "[]",
+        );
+        hhBookings = hhBookings.map((b) => {
+          if (b.id === id) b.status = newStatus;
+          return b;
+        });
+        localStorage.setItem("hh_bookings", JSON.stringify(hhBookings));
+        loadPendingBookings();
+      }
+
+      function showSettings() {
+        document.getElementById("settingsModal").classList.add("active");
+        document.getElementById("newUser").value = "";
+        document.getElementById("newPass").value = "";
+        document.getElementById("settingsError").style.display = "none";
+      }
+
+      // ✅ NEW: Forgot Password Functions
+      function showForgotPassword() {
+        document.getElementById("forgotPasswordModal").classList.add("active");
+        document.getElementById("forgotStep1").style.display = "block";
+        document.getElementById("forgotStep2").style.display = "none";
+        document.getElementById("forgotStep3").style.display = "none";
+        document.getElementById("recoveryEmail").value = "";
+        document.getElementById("recoveryError").style.display = "none";
+      }
+
+      function closeForgotPassword() {
+        document.getElementById("forgotPasswordModal").classList.remove("active");
+      }
+
+      function sendPasswordReset() {
+        const email = document.getElementById("recoveryEmail").value.trim();
+        const errorDiv = document.getElementById("recoveryError");
+
+        if (!email) {
+          errorDiv.style.display = "block";
+          errorDiv.textContent = "❌ Please enter your shop email!";
+          return;
+        }
+
+        if (!email.includes("@")) {
+          errorDiv.style.display = "block";
+          errorDiv.textContent = "❌ Please enter a valid email!";
+          return;
+        }
+
+        // ✅ Save recovery email to localStorage
+        localStorage.setItem("recoveryEmail", email);
+        
+        // ✅ Generate recovery code
+        const recoveryCode = "HR-" + Date.now();
+        localStorage.setItem("recoveryCode", recoveryCode);
+        localStorage.setItem("recoveryCodeTime", Date.now());
+
+        // Show success step
+        document.getElementById("forgotStep1").style.display = "none";
+        document.getElementById("forgotStep2").style.display = "block";
+        document.getElementById("displayEmail").textContent = email;
+
+        // Auto-show WhatsApp option after 5 seconds
+        setTimeout(() => {
+          const step2 = document.getElementById("forgotStep2");
+          const step3 = document.getElementById("forgotStep3");
+          if (step2.style.display !== "none") {
+            step2.style.display = "none";
+            step3.style.display = "block";
+          }
+        }, 5000);
+      }
+
+      function closeSettings() {
+        document.getElementById("settingsModal").classList.remove("active");
+      }
+
+      function updateCredentials() {
+        const newUser = document.getElementById("newUser").value.trim();
+        const newPass = document.getElementById("newPass").value.trim();
+        const errorDiv = document.getElementById("settingsError");
+
+        if (!newUser || !newPass) {
+          errorDiv.style.display = "block";
+          errorDiv.style.color = "#f44336";
+          errorDiv.textContent = "❌ Please enter both username and password!";
+          return;
+        }
+
+        if (newUser.length < 4 || newPass.length < 4) {
+          errorDiv.style.display = "block";
+          errorDiv.style.color = "#f44336";
+          errorDiv.textContent = "❌ Min 4 characters required!";
+          return;
+        }
+
+        localStorage.setItem("adminUser", newUser);
+        localStorage.setItem("adminPass", newPass);
+
+        errorDiv.style.display = "block";
+        errorDiv.style.color = "#4caf50";
+        errorDiv.style.borderColor = "#4caf50";
+        errorDiv.style.background = "#1a3a1a";
+        errorDiv.textContent = "✅ Credentials updated!";
+
+        setTimeout(() => {
+          closeSettings();
+        }, 1500);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HairHunter</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="logo">
+        <img src="logo.png" alt="HairHunter Logo" class="logo-img" /> HairHunter
+      </div>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#team">Our Team</a></li>
+        <li><a href="book.html">Book Now</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li>
+          <a href="admin.html" style="color: #f44336; font-weight: 600"
+            >🔐 Admin</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Look Sharp.<br />Feel Confident.</h1>
+        <p>Premium haircuts, facials & grooming for men & kids in Salem</p>
+        <a href="book.html" class="btn-gold">Book Your Slot ✂️</a>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+      <h2>Our Services</h2>
+      <p class="services-sub">Tap a category to see services & prices</p>
+
+      <div class="category-tabs">
+        <button class="cat-btn active" onclick="showCategory('cut')">
+          ✂️ Cut & Style
+        </button>
+        <button class="cat-btn" onclick="showCategory('color')">
+          🎨 Hair Colouring
+        </button>
+        <button class="cat-btn" onclick="showCategory('detan')">
+          🧖 Detan
+        </button>
+        <button class="cat-btn" onclick="showCategory('facial')">
+          ✨ Facials
+        </button>
+        <button class="cat-btn" onclick="showCategory('spa')">
+          💆 Hair Spa
+        </button>
+        <button class="cat-btn" onclick="showCategory('massage')">
+          🤲 Massage
+        </button>
+        <button class="cat-btn" onclick="showCategory('makeup')">
+          💄 Makeup
+        </button>
+        <button class="cat-btn" onclick="showCategory('straight')">
+          💇 Straightening
+        </button>
+      </div>
+
+      <!-- CUT & STYLE -->
+      <div class="category-panel active" id="cat-cut">
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>Haircut (Men)</h3>
+            <p>Hair wash & face wash</p>
+            <span class="price">₹170</span>
+          </div>
+          <div class="service-card">
+            <h3>Kids Cut (below 5)</h3>
+            <p>—</p>
+            <span class="price">₹100</span>
+          </div>
+          <div class="service-card">
+            <h3>Kids Cut (5–10 yrs)</h3>
+            <p>—</p>
+            <span class="price">₹150</span>
+          </div>
+          <div class="service-card">
+            <h3>Shave & Beard Trim</h3>
+            <p>—</p>
+            <span class="price">₹80</span>
+          </div>
+          <div class="service-card">
+            <h3>Shampoo + Conditioner Wash</h3>
+            <p>—</p>
+            <span class="price">₹100</span>
+          </div>
+          <div class="service-card combo">
+            <h3>Combo (Haircut + Shave/Trim)</h3>
+            <p>Hair wash, face wash, wax & dry</p>
+            <span class="price">₹200</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- HAIR COLOURING -->
+      <div class="category-panel" id="cat-color">
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>Professional Hair Colour</h3>
+            <p>—</p>
+            <span class="price">₹500</span>
+          </div>
+          <div class="service-card">
+            <h3>Hair Colour (Ammonia Free)</h3>
+            <p>—</p>
+            <span class="price">₹600</span>
+          </div>
+          <div class="service-card">
+            <h3>Beard Colour</h3>
+            <p>—</p>
+            <span class="price">₹150</span>
+          </div>
+          <div class="service-card">
+            <h3>Moustache Colour</h3>
+            <p>—</p>
+            <span class="price">₹50</span>
+          </div>
+          <div class="service-card">
+            <h3>Hair Streaks (Passion)</h3>
+            <p>—</p>
+            <span class="price">₹250</span>
+          </div>
+          <div class="service-card">
+            <h3>Hair Streaks (Highlights)</h3>
+            <p>—</p>
+            <span class="price">₹500</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DETAN -->
+      <div class="category-panel" id="cat-detan">
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>Face Detan</h3>
+            <p>—</p>
+            <span class="price">₹250</span>
+          </div>
+          <div class="service-card">
+            <h3>Neck Detan</h3>
+            <p>—</p>
+            <span class="price">₹200</span>
+          </div>
+          <div class="service-card">
+            <h3>Hands Detan</h3>
+            <p>—</p>
+            <span class="price">₹300</span>
+          </div>
+          <div class="service-card">
+            <h3>Peel Off Mask</h3>
+            <p>—</p>
+            <span class="price">₹500</span>
+          </div>
+          <div class="service-card">
+            <h3>Glow Pack</h3>
+            <p>—</p>
+            <span class="price">₹250</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FACIALS -->
+      <div class="category-panel" id="cat-facial">
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>Clean Up</h3>
+            <p>—</p>
+            <span class="price">₹450</span>
+          </div>
+          <div class="service-card">
+            <h3>Fruit Facial</h3>
+            <p>—</p>
+            <span class="price">₹800</span>
+          </div>
+          <div class="service-card">
+            <h3>Whitening Facial</h3>
+            <p>—</p>
+            <span class="price">₹1500</span>
+          </div>
+          <div class="service-card">
+            <h3>Acne Facial</h3>
+            <p>—</p>
+            <span class="price">₹1700</span>
+          </div>
+          <div class="service-card">
+            <h3>Charcoal Facial</h3>
+            <p>—</p>
+            <span class="price">₹2000</span>
+          </div>
+          <div class="service-card">
+            <h3>Gold Facial</h3>
+            <p>—</p>
+            <span class="price">₹2000</span>
+          </div>
+          <div class="service-card">
+            <h3>O3 Facial</h3>
+            <p>—</p>
+            <span class="price">₹3500</span>
+          </div>
+          <div class="service-card">
+            <h3>Johnson Skin Lightening</h3>
+            <p>—</p>
+            <span class="price">₹3500</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- HAIR SPA -->
+      <div class="category-panel" id="cat-spa">
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>Hair Spa (Dry & Damaged)</h3>
+            <p>—</p>
+            <span class="price">₹400</span>
+          </div>
+          <div class="service-card">
+            <h3>Keratin Hair Spa</h3>
+            <p>—</p>
+            <span class="price">₹600</span>
+          </div>
+          <div class="service-card">
+            <h3>Anti Dandruff Treatment</h3>
+            <p>—</p>
+            <span class="price">₹800</span>
+          </div>
+          <div class="service-card">
+            <h3>Anti Hairfall Treatment</h3>
+            <p>—</p>
+            <span class="price">₹1000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MASSAGE -->
+      <div class="category-panel" id="cat-massage">
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>Head Massage (Almond Oil)</h3>
+            <p>—</p>
+            <span class="price">₹350</span>
+          </div>
+          <div class="service-card">
+            <h3>Face Massage</h3>
+            <p>—</p>
+            <span class="price">₹250</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAKEUP -->
+      <div class="category-panel" id="cat-makeup">
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>Party Makeup</h3>
+            <p>—</p>
+            <span class="price">₹2500</span>
+          </div>
+          <div class="service-card">
+            <h3>Groom Makeup (Normal)</h3>
+            <p>Advance min ₹1000</p>
+            <span class="price">₹4000</span>
+          </div>
+          <div class="service-card">
+            <h3>Groom Makeup (HD)</h3>
+            <p>Advance min ₹1000</p>
+            <span class="price">₹5000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STRAIGHTENING -->
+      <div class="category-panel" id="cat-straight">
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>Hair Straightening (Temporary)</h3>
+            <p>—</p>
+            <span class="price">₹500</span>
+          </div>
+          <div class="service-card">
+            <h3>Hair Straightening (Permanent Front)</h3>
+            <p>—</p>
+            <span class="price">₹1500</span>
+          </div>
+          <div class="service-card">
+            <h3>Hair Straightening (Permanent Top)</h3>
+            <p>—</p>
+            <span class="price">₹3500</span>
+          </div>
+          <div class="service-card">
+            <h3>Hair Smoothening</h3>
+            <p>—</p>
+            <span class="price">₹3500</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM SECTION -->
+    <section class="team" id="team">
+      <h2>Meet Our Barbers</h2>
+      <p class="team-sub">Click a card to see more info</p>
+      
+      <div class="barbers-grid">
+        <!-- S.DEVA -->
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front" style="background-image: url('DEVA S.jpeg'); background-size: cover; background-position: center;">
+              <div class="card-overlay">
+                <h3>DEVA S</h3>
+                <p>SENIOR STYLISH AND BARBER</p>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <h3>DEVA S</h3>
+              <div class="barber-details">
+                <p>⭐ 11 years experience</p>
+                <p>📱 8122288236</p>
+                <p>📍 Branch 1 & 2</p>
+                <p>✂️ All Services</p>
+                <p><a href="https://instagram.com/vedan_deva" target="_blank">INSTAGRAM</a></p>
+              </div>
+              <a href="book.html" class="btn-book-barber">📅 Book Now</a>
+            </div>
+          </div>
+        </div>
+                        <!-- KUTTY SURYA -->
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front" style="background-image: url('KUTTY SURYA.jpeg'); background-size: cover; background-position: center;">
+              <div class="card-overlay">
+                <h3>KUTTY SURYA</h3>
+                <p>SENIOR BARBER</p>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <h3>KUTTY SURYA</h3>
+              <div class="barber-details">
+                <p>⭐ 5 years experience</p>
+                <p>📱 90872 29092</p>
+                <p>📍 Branch 1</p>
+                <p>✂️ All Services</p>
+                <p><a href="https://instagram.com/surya___kutti" target="_blank">INSTAGRAM</a></p>
+              </div>
+              <a href="book.html" class="btn-book-barber">📅 Book Now</a>
+            </div>
+          </div>
+        </div>
+        <!-- THIRUMOORTHI -->
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front" style="background-image: url('THIRUMOORTHI.jpeg'); background-size: cover; background-position: center;">
+              <div class="card-overlay">
+                <h3>THIRUMOORTHI</h3>
+                <p>SENIOR BARBER</p>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <h3>THIRUMOORTHI</h3>
+              <div class="barber-details">
+                <p>⭐ 5 years experience</p>
+                <p>📱 6381162628</p>
+                <p>📍 Branch 2</p>
+                <p>✂️ All Services</p>
+                <p><a href="https://instagram.com/tishi_moorthi" target="_blank">INSTAGRAM</a></p>
+              </div>
+              <a href="book.html" class="btn-book-barber">📅 Book Now</a>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- SURESH -->
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front" style="background-image: url('SURESH.jpeg'); background-size: cover; background-position: center;">
+              <div class="card-overlay">
+                <h3>SURESH</h3>
+                <p>SENIOR BARBER</p>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <h3>SURESH</h3>
+              <div class="barber-details">
+                <p>⭐ 5 years experience</p>
+                <p>📱 7708027729</p>
+                <p>📍 Branch 2</p>
+                <p>✂️ ALL SERVICE</p>
+                <p><a href="https://instagram.com/rj___suresh____" target="_blank">INSTAGRAM</a></p>
+              </div>
+              <a href="book.html" class="btn-book-barber">📅 Book Now</a>
+            </div>
+          </div>
+        </div>
+
+               <!-- PRAVIN -->
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front" style="background-image: url('PRAVEEN.jpeg'); background-size: cover; background-position: center;">
+              <div class="card-overlay">
+                <h3>PRAVIN</h3>
+                <p>JUNIOR BARBER</p>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <h3>PRAVIN</h3>
+              <div class="barber-details">
+                <p>⭐ 4 years experience</p>
+                <p>📱 7448837471</p>
+                <p>📍 Branch 1</p>
+                <p>✂️ All Services</p>
+                <p><a href="https://instagram.com/thalapathy_pravin_official" target="_blank">INSTAGRAM</a></p>
+              </div>
+              <a href="book.html" class="btn-book-barber">📅 Book Now</a>
+            </div>
+          </div>
+        </div>
+
+               <!-- ASHOK -->
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front" style="background-image: url('ASHOK.jpeg'); background-size: cover; background-position: center;">
+              <div class="card-overlay">
+                <h3>ASHOK</h3>
+                <p>JUNIOR BARBER</p>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <h3>ASHOK</h3>
+              <div class="barber-details">
+                <p>⭐ 2 years experience</p>
+                <p>📱 8939031329</p>
+                <p>📍 Branch 1</p>
+                <p>✂️ All Services</p>
+                <p><a href="https://instagram.com/ashok_official _66" target="_blank">INSTAGRAM</a></p>
+              </div>
+              <a href="book.html" class="btn-book-barber">📅 Book Now</a>
+            </div>
+          </div>
+        </div>
+                       <!-- HARI -->
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front" style="background-image: url('HARI.jpeg'); background-size: cover; background-position: center;">
+              <div class="card-overlay">
+                <h3>HARI</h3>
+                <p>JUNIOR BARBER</p>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <h3>HARI</h3>
+              <div class="barber-details">
+                <p>⭐ 3 years experience</p>
+                <p>📱 6380634302</p>
+                <p>📍 Branch 1</p>
+                <p>✂️ All Services</p>
+                <p><a href="https://instagram.com/itzz._.r15" target="_blank">INSTAGRAM</a></p>
+              </div>
+              <a href="book.html" class="btn-book-barber">📅 Book Now</a>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <h2>Find Us</h2>
+      <p class="contact-sub">Visit us at any of our branches</p>
+
+      <div class="branches-grid">
+<!-- BRANCH 1 -->
+<div class="branch-card">
+  <h3>📍 Main Branch — Dadagapatty</h3>
+  <p class="branch-info">
+    📌 118, Trichy Main Road<br>
+    Dadagapatty, Salem-636006<br>
+    <small>(Vinayaga Medicals Upstairs)</small>
+  </p>
+  <p class="branch-info">📞 81222 88236</p>
+  <p class="branch-info">⏰ Mon–Thu: 8 AM – 9 PM</p>
+  <p class="branch-info">⏰ Sat–Sun: 8 AM – 9 PM</p>
+  <p class="branch-info branch-off">❌ Friday: Closed</p>
+  <p class="branch-info branch-break">☕ Break: 2 PM – 3 PM</p>
+  <a href="https://maps.app.goo.gl/7hVs5JsmJvRC7FqJA" target="_blank" class="btn-whatsapp" style="display: inline-block;">
+    🗺️ View on Maps
+  </a>
+  <a href="https://wa.me/918122288236" class="btn-whatsapp" target="_blank" style="display: inline-block; margin-left: 10px;">
+    💬 WhatsApp Us
+  </a>
+</div>
+
+<!-- BRANCH 2 -->
+<div class="branch-card">
+  <h3>📍 Hari Hunter Men's Salon</h3>
+  <p class="branch-info">
+    📌 Kitchipalayam<br>
+    Salem-636015, Tamil Nadu
+  </p>
+  <p class="branch-info">📞 63833 45407</p>
+  <p class="branch-info">⏰ Mon–Thu: 8 AM – 9 PM</p>
+  <p class="branch-info">⏰ Sat–Sun: 8 AM – 9 PM</p>
+  <p class="branch-info branch-off">❌ Friday: Closed</p>
+  <p class="branch-info branch-break">☕ Break: 2 PM – 3 PM</p>
+  <a href="https://maps.app.goo.gl/yJkEnDvwpXWHFYMw8" target="_blank" class="btn-whatsapp" style="display: inline-block;">
+    🗺️ View on Maps
+  </a>
+  <a href="https://wa.me/916383345407" class="btn-whatsapp" target="_blank" style="display: inline-block; margin-left: 10px;">
+    💬 WhatsApp Us
+  </a>
+</div>
+
+    <script>
+      function showCategory(cat) {
+        document
+          .querySelectorAll(".category-panel")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".cat-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document.getElementById("cat-" + cat).classList.add("active");
+        event.target.classList.add("active");
+      }
+
+      // ✅ NEW: Read barber status from localStorage (set by admin)
+      function updateBarberStatusFromAdmin() {
+        document.querySelectorAll(".flip-card").forEach((card) => {
+          const barberName = card.querySelector(".card-overlay h3")?.textContent || 
+                           card.querySelector(".flip-card-back h3")?.textContent;
+          const statusEl = card.querySelector(".card-overlay p");
+          
+          if (!barberName) return;
+          
+          // Read status from localStorage (admin sets this)
+          const status = localStorage.getItem("barber_" + barberName) || "free";
+          
+          if (status === "busy") {
+            // Show as BUSY
+            if (statusEl) {
+              statusEl.textContent = "🔴 BUSY";
+              statusEl.style.color = "#f44336";
+            }
+            card.style.opacity = "0.5";
+            card.style.pointerEvents = "none";
+            card.style.cursor = "not-allowed";
+          } else {
+            // Show as FREE
+            const roleText = card.querySelector(".card-overlay p")?.getAttribute("data-role");
+            if (statusEl && roleText) {
+              statusEl.textContent = roleText;
+              statusEl.style.color = "";
+            }
+            card.style.opacity = "1";
+            card.style.pointerEvents = "auto";
+            card.style.cursor = "pointer";
+          }
+        });
+      }
+
+      // BARBER CARD FLIP - SIMPLIFIED
+      document.querySelectorAll(".flip-card-inner").forEach((inner) => {
+        inner.addEventListener("click", function (e) {
+          // Check if barber is busy
+          const card = this.parentElement;
+          if (card.style.pointerEvents === "none") {
+            alert("❌ This barber is currently busy. Please choose another!");
+            return;
+          }
+
+          // Get the actual clicked element
+          const target = e.target;
+          const tagName = target.tagName.toLowerCase();
+          
+          // If it's a link or button, let it work naturally
+          if (tagName === "a" || tagName === "button") {
+            return;
+          }
+          
+          // If clicking inside a link or button, let it work
+          if (target.closest("a") || target.closest("button")) {
+            return;
+          }
+          
+          // Only flip on other clicks
+          this.parentElement.classList.toggle("flipped");
+        });
+      });
+
+      // Close flip when clicking outside
+      document.addEventListener("click", function (e) {
+        // If clicked on a flip card, skip
+        if (e.target.closest(".flip-card")) {
+          return;
+        }
+        // Close all flipped cards
+        document.querySelectorAll(".flip-card.flipped").forEach((card) => {
+          card.classList.remove("flipped");
+        });
+      });
+
+      // Check barber status when page loads
+      window.addEventListener("load", updateBarberStatusFromAdmin);
+      
+      // Refresh every 3 seconds to sync with admin changes
+      setInterval(updateBarberStatusFromAdmin, 3000);
+    </script>
+  </body>
+</html>
