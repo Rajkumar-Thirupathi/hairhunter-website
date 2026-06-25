@@ -294,7 +294,7 @@
         background: rgba(0, 0, 0, 0.8);
         align-items: center;
         justify-content: center;
-        z-index: 1000;
+        z-index: 9999 !important;
       }
       .modal.active {
         display: flex;
@@ -385,8 +385,17 @@
         />
         <button onclick="adminLogin()">Login →</button>
         <p class="login-error" id="loginError"></p>
-        <p style="text-align: center; margin-top: 16px;">
-          <a href="javascript:void(0)" onclick="showForgotPassword()" style="color: #d4af37; font-size: 12px; text-decoration: none; cursor: pointer;">
+        <p style="text-align: center; margin-top: 16px">
+          <a
+            href="javascript:void(0)"
+            onclick="showForgotPassword()"
+            style="
+              color: #d4af37;
+              font-size: 12px;
+              text-decoration: none;
+              cursor: pointer;
+            "
+          >
             🔑 Forgot Password?
           </a>
         </p>
@@ -465,12 +474,19 @@
       <div class="modal" id="forgotPasswordModal">
         <div class="modal-content">
           <h2>🔐 Forgot Password?</h2>
-          <p style="color: #d4af37; font-size: 13px; margin-bottom: 20px; font-weight: 600;">
+          <p
+            style="
+              color: #d4af37;
+              font-size: 13px;
+              margin-bottom: 20px;
+              font-weight: 600;
+            "
+          >
             ✂️ HairHunter Admin Recovery
           </p>
 
           <div id="forgotStep1">
-            <p style="color: #aaa; font-size: 13px; margin-bottom: 16px;">
+            <p style="color: #aaa; font-size: 13px; margin-bottom: 16px">
               Enter your shop email to receive a password reset link
             </p>
 
@@ -494,31 +510,46 @@
             </div>
           </div>
 
-          <div id="forgotStep2" style="display: none; text-align: center;">
-            <div style="font-size: 50px; margin-bottom: 16px;">📧</div>
-            <h3 style="color: #d4af37; margin-bottom: 10px;">Check Your Email!</h3>
-            <p style="color: #ccc; font-size: 13px; margin-bottom: 16px;">
-              A password reset link has been sent to your shop email.<br>
+          <div id="forgotStep2" style="display: none; text-align: center">
+            <div style="font-size: 50px; margin-bottom: 16px">📧</div>
+            <h3 style="color: #d4af37; margin-bottom: 10px">
+              Check Your Email!
+            </h3>
+            <p style="color: #ccc; font-size: 13px; margin-bottom: 16px">
+              A password reset link has been sent to your shop email.<br />
               <strong id="displayEmail"></strong>
             </p>
-            <p style="color: #aaa; font-size: 12px; margin-bottom: 16px;">
+            <p style="color: #aaa; font-size: 12px; margin-bottom: 16px">
               ⏰ Link expires in 10 minutes
             </p>
-            <button class="btn-cancel" onclick="closeForgotPassword()" style="width: 100%;">
+            <button
+              class="btn-cancel"
+              onclick="closeForgotPassword()"
+              style="width: 100%"
+            >
               ✅ Got It
             </button>
           </div>
 
-          <div id="forgotStep3" style="display: none; text-align: center;">
-            <div style="font-size: 40px; margin-bottom: 16px;">💬</div>
-            <h3 style="color: #d4af37; margin-bottom: 10px;">Contact Admin</h3>
-            <p style="color: #ccc; font-size: 13px; margin-bottom: 16px;">
+          <div id="forgotStep3" style="display: none; text-align: center">
+            <div style="font-size: 40px; margin-bottom: 16px">💬</div>
+            <h3 style="color: #d4af37; margin-bottom: 10px">Contact Admin</h3>
+            <p style="color: #ccc; font-size: 13px; margin-bottom: 16px">
               Need help? Contact your HairHunter shop admin via WhatsApp
             </p>
-            <a href="https://wa.me/918122288236?text=I%20forgot%20my%20admin%20password%20for%20HairHunter" target="_blank" class="btn-update" style="display: block; padding: 12px;">
+            <a
+              href="https://wa.me/918122288236?text=I%20forgot%20my%20admin%20password%20for%20HairHunter"
+              target="_blank"
+              class="btn-update"
+              style="display: block; padding: 12px"
+            >
               💬 WhatsApp Admin
             </a>
-            <button class="btn-cancel" onclick="closeForgotPassword()" style="width: 100%; margin-top: 10px;">
+            <button
+              class="btn-cancel"
+              onclick="closeForgotPassword()"
+              style="width: 100%; margin-top: 10px"
+            >
               ❌ Cancel
             </button>
           </div>
@@ -652,8 +683,8 @@
       function loadDashboard() {
         // ✅ FIRST: Load barber status from localStorage
         loadBarberStatusFromStorage();
-        
-        clearOldBookings();  // ✅ Clear bookings older than today
+
+        clearOldBookings(); // ✅ Clear bookings older than today
         loadPendingBookings();
         loadBarberTable();
         loadBookingsTable();
@@ -664,7 +695,7 @@
         barbers.forEach((b) => {
           const savedStatus = localStorage.getItem("barber_" + b.name);
           if (savedStatus) {
-            b.status = savedStatus;  // Restore saved status
+            b.status = savedStatus; // Restore saved status
           }
         });
       }
@@ -686,13 +717,15 @@
       function loadBookingsTable() {
         const tbody = document.getElementById("bookingsBody");
         tbody.innerHTML = "";
-        
+
         // Get REAL bookings from localStorage (actual customer bookings)
-        const hhBookings = JSON.parse(localStorage.getItem("hh_bookings") || "[]");
-        
+        const hhBookings = JSON.parse(
+          localStorage.getItem("hh_bookings") || "[]",
+        );
+
         // If no real bookings, show sample data
         const bookingsToShow = hhBookings.length > 0 ? hhBookings : bookings;
-        
+
         bookingsToShow.forEach((bk) => {
           // For real bookings, use servicesList; for sample data, use service
           const serviceName = bk.servicesList || bk.service;
@@ -710,10 +743,10 @@
       function toggleStatus(id) {
         const b = barbers.find((x) => x.id === id);
         b.status = b.status === "free" ? "busy" : "free";
-        
+
         // ✅ SAVE barber status to localStorage so booking/index page can read it
         localStorage.setItem("barber_" + b.name, b.status);
-        
+
         loadBarberTable();
       }
 
@@ -721,16 +754,18 @@
       function clearOldBookings() {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        
-        let hhBookings = JSON.parse(localStorage.getItem("hh_bookings") || "[]");
-        
+
+        let hhBookings = JSON.parse(
+          localStorage.getItem("hh_bookings") || "[]",
+        );
+
         // Keep only TODAY and FUTURE bookings (delete past dates)
         hhBookings = hhBookings.filter((b) => {
           const bookingDate = new Date(b.date);
           bookingDate.setHours(0, 0, 0, 0);
           return bookingDate >= today;
         });
-        
+
         localStorage.setItem("hh_bookings", JSON.stringify(hhBookings));
       }
 
@@ -798,7 +833,9 @@
       }
 
       function closeForgotPassword() {
-        document.getElementById("forgotPasswordModal").classList.remove("active");
+        document
+          .getElementById("forgotPasswordModal")
+          .classList.remove("active");
       }
 
       function sendPasswordReset() {
@@ -819,7 +856,7 @@
 
         // ✅ Save recovery email to localStorage
         localStorage.setItem("recoveryEmail", email);
-        
+
         // ✅ Generate recovery code
         const recoveryCode = "HR-" + Date.now();
         localStorage.setItem("recoveryCode", recoveryCode);
